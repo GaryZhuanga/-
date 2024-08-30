@@ -1,5 +1,27 @@
 <script setup lang="ts">
+import {reqHospital_level_region} from "@/api/home/index.ts";
+import {reqHospital_level_region_Arr} from "@/api/home/type.ts";
+import {onMounted,ref} from "vue";
+//获取医院等级数据
+let region_Arr=ref<reqHospital_level_region_Arr[]>([])
+//组件挂载完毕
+onMounted(() => {
+  getRegion()
+})
+const getRegion = async ()=> {
+  let result= await reqHospital_level_region('Beijin')
+  if(result.code === 200) {
+    region_Arr.value = result.data
+  }
+}
+//控制医院等级响应式数据
+let activeFlag=ref<string>("")
+const change_region = (region:string)=> {
+  activeFlag.value=region
+  $emit('getRegion', region)
+}
 
+let $emit=defineEmits(['getRegion'])
 </script>
 
 <template>
@@ -7,23 +29,8 @@
     <div class="content">
       <div class="left">地区：</div>
       <ul>
-        <li class="active">全部</li>
-        <li>东城区</li>
-        <li>西城区</li>
-        <li>朝阳区</li>
-        <li>丰台区</li>
-        <li>石景山区</li>
-        <li>海淀区</li>
-        <li>门头沟区</li>
-        <li>房山区</li>
-        <li>通州区</li>
-        <li>顺义区</li>
-        <li>昌平区</li>
-        <li>大兴区</li>
-        <li>怀柔区</li>
-        <li>平谷区</li>
-        <li>密云区</li>
-        <li>延庆区</li>
+        <li :class="{active:activeFlag==''}"  @click="change_region('') ">全部</li>
+        <li v-for="region in region_Arr" :key="region.value"  @click="change_region(region.value)" :class="{active:activeFlag==region.value}" >{{region.name}}</li>
       </ul>
     </div>
   </div>

@@ -1,8 +1,8 @@
 <template>
   <div class="top">
     <div class="content">
-      <div class="left">
-        <img src="@/static/images/logo.png" alt="">
+      <div class="left" @click="gohome">
+        <img src="@/static/images/logo.png" alt="" >
         <p>尚医通 预约挂号统一平台</p>
       </div>
       <div class="right">
@@ -13,7 +13,11 @@
   </div>
 </template>
 <script setup lang="ts">
-
+import{useRouter} from "vue-router";
+const router = useRouter();
+function gohome(){
+  router.push({path:'/home'});
+}
 </script>
 <style scoped lang="scss">
 .top{

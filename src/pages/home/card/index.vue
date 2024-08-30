@@ -1,9 +1,14 @@
 <script setup lang="ts">
 defineProps(['hospitalInfo'])
+import { useRouter } from "vue-router"
+let $router = useRouter()
+function goDetail(){
+  $router.push({path:'/hosptial'})
+}
 </script>
 
 <template>
-  <el-card class="box-card" shadow="hover">
+  <el-card class="box-card" shadow="hover" @click="goDetail">
     <div class="content">
       <div class="left">
         <div class="hospital_name">
@@ -20,7 +25,7 @@ defineProps(['hospitalInfo'])
         <img :src="`data:image/jpeg;base64,${hospitalInfo.logoData}`" alt="">
       </div>
     </div>
-  </el-card>
+  </el-card  >
 </template>
 
 <style scoped>
